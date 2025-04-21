@@ -30,13 +30,11 @@ struct App: AsyncParsableCommand {
 		if !FileManager.default.fileExists(atPath: exe) {
 			throw AppError.missingBinary(exe)
 		}
-		
-		let cmdString = "\(exe) -y @modelcontextprotocol/server-github"
-
+	
         // If a command is specified, launch it and redirect I/O
 		let process = Process()
-		process.executableURL = URL(fileURLWithPath: "/bin/tcsh")
-		process.arguments = ["-c", cmdString]
+		process.executableURL = URL(fileURLWithPath: exe)
+		process.arguments = ["-y", "@modelcontextprotocol/server-github"]
 	
 		// copy current process environment
 		var env = ProcessInfo.processInfo.environment
@@ -58,7 +56,7 @@ struct App: AsyncParsableCommand {
 		let transport = process.stdioTransport(logger: logger)
 
 		try process.run()
-		print("Process launched: \(cmdString)")
+		print("Process launched: \(exe)")
 		try await client.connect(transport: transport)
 
 		if (tools) {

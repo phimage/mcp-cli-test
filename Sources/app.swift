@@ -17,7 +17,7 @@ enum  AppError: Swift.Error {
 @main
 struct App: AsyncParsableCommand {
 
-    @Option(name: [.long], help: "display tools")
+    @Flag(name: [.long], help: "display tools")
     var tools: Bool = false
     
     @Option(name: [.long], help: "external command to launch")
